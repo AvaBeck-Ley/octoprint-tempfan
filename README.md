@@ -18,7 +18,7 @@ Disconnect events:
 Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
-    https://github.com/avabeck-ley/OctoPrint-TempFanm/archive/master.zip
+    https://github.com/avabeck-ley/OctoPrint-TempFan/archive/master.zip
 
 ## Configuration
 
