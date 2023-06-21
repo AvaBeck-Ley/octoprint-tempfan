@@ -25,18 +25,20 @@ class HeatBedSavetyPlugin(octoprint.plugin.StartupPlugin,
 	def _initgpio(self):
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
-		GPIO.setup(26, GPIO.OUT)
+		GPIO.setup(self.pin, GPIO.OUT)
 		self._gpioup = 1
 
 
 	def readtemperature(self, comm_instance, parsed_temperatures, *args, **kwargs):
-		current_temp = parsed_temperatures['B'][0]
-		if current_temp >= self.maxtemp:
-			self._bedpower(0)
+		current_temp = parsed_temperatures['T0'][0]
+		if current_temp > self.maxtemp:
+			GPIO.output(self.pin, GPIO.HIGH)
+		if current_temp < self.maxtemp:
+			GPIO.output(self.pin, GPIO.LOW)
 
 		return parsed_temperatures
 
-	@octoprint.plugin.BlueprintPlugin.route("/heatbedsavety", methods=["GET"])
+	@octoprint.plugin.BlueprintPlugin.route("/tempfan", methods=["GET"])
 	def myreponse(self):
 		data = request.values["data"]
 		if data == "boot":
@@ -50,18 +52,18 @@ class HeatBedSavetyPlugin(octoprint.plugin.StartupPlugin,
 		# Plugin here. See https://github.com/foosel/OctoPrint/wiki/Plugin:-Software-Update
 		# for details.
 		return dict(
-			heatbedsavety=dict(
-				displayName="HeatBedSavety Plugin",
+			tempfan=dict(
+				displayName="Temp Fan Plugin",
 				displayVersion=self._plugin_version,
 
 				# version check: github repository
 				type="github_release",
-				user="linux-paul",
-				repo="OctoPrint-Heatbedsavety",
+				user="avabeck-ley",
+				repo="OctoPrint-TempFan",
 				current=self._plugin_version,
 
 				# update method: pip
-				pip="https://github.com/linux-paul/OctoPrint-Heatbedsavety/archive/{target_version}.zip"
+				pip="https://github.com/avabeck-ley/OctoPrint-TempFan/archive/{target_version}.zip"
 			)
 		)
 
