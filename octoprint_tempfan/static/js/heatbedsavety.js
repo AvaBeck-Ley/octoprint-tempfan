@@ -8,7 +8,7 @@ $(function() {
     function HeatbedsavetyViewModel(parameters) {
         var self = this;
 
-	self.url = "/plugin/heatbedsavety/heatbedsavety";
+	self.url = "/plugin/tempfan/tempfan";
 
 	self.bedPower = ko.observable();
 
@@ -27,7 +27,7 @@ $(function() {
 	};
 
 	self.onDataUpdaterPluginMessage = function(plugin,data) {
-            if (plugin != "heatbedsavety") {
+            if (plugin != "tempfan") {
                 return;
             }
             else {
